@@ -66,19 +66,19 @@ void modify_buff(uint8_t* buffer)
 //	buffer[2] = 0x04;
 	buffer[2] = 0x0C;
 //	buffer[3] = 0x0D;
-	buffer[3] = 0x0F;
+	buffer[3] = 0x80;//0f
 //	buffer[4] = 0x00;
 	buffer[4] = 0x33;
 //	buffer[4] = 0x11;
 	buffer[5] = 0x00;
 	//B
 	buffer[6] = 0x0C;
-	buffer[7] = 0x0F;
+	buffer[7] = 0x80;
 	buffer[8] = 0x33;
 	buffer[9] = 0x00;
 	//C
 	buffer[10] = 0xF5;
-	buffer[11] = 0x00;
+	buffer[11] = 0x0F;
 	buffer[12] = 0x10;
 	buffer[13] = 0x00;
 
@@ -107,23 +107,25 @@ int main(void)
 	
 	uint8_t buffer[19];
 
-	LED_Init();				//LED IO初始化
+//	LED_Init();				//LED IO初始化
 	Delay_Init();			//延时初始化
 	COM_Init(COM1, 115200);//串口1初始化
+	/*
 	OLED_Init();			//初始化OLED
 	ADC_Initialize();	//ADC初始化
 	JoyStick_Init();	//摇杆按键(JoyStick)初始化
 	BEEP_Init();			//蜂鸣器初始化
   EE_Init();				//FLASH 模拟EEPROM初始化
+	*/
 	I2C_Init();				//初始化I2C接口
-	
+/*	
 	//显示提示信息
 	OLED_ShowString(0,0,"WWW.UCORTEX.COM");	
 	OLED_ShowString(0,16,"SPEED: 100 Kbps");
 	OLED_ShowString(0,32,"DATA = 0x  ");
 	OLED_ShowString(0,48,"RESULT: ");
 	OLED_Refresh_Gram();
-	
+	*/
 
 	for(i = 0; i < 19; i++)
 	{
@@ -138,8 +140,9 @@ int main(void)
 			I2C_WriteOneByte(DVI_Dev2Addr, DVI_REG_ADDR+i, buffer[i]);
 	}
 	
- 	
-	while(1)
+ 	while(1){}
+	
+	while(0)
 	{
 		key = JoyStick_Scan(0);
 		if(key == KEY_CENTER)//进行一次I2C读写
