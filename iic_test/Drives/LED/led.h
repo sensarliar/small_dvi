@@ -41,6 +41,8 @@ void LED_Init(void);	//LED IO初始化
 void LED_On(void);		//LED亮
 void LED_Off(void);		//LED灭
 void LED_Toggle(void);//LED状态反转
+void CS_high(void);
+void CS_low(void);
 
 #endif
 

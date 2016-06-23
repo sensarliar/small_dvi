@@ -52,7 +52,8 @@ void LED_Init(void)
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
   GPIO_Init(GPIOB, &GPIO_InitStructure);
 	
-	GPIO_SetBits(GPIOB, GPIO_Pin_12);//设置GPIOB.12为高电平，关闭LED
+//	GPIO_SetBits(GPIOB, GPIO_Pin_12);//设置GPIOB.12为高电平，关闭LED
+	GPIO_ResetBits(GPIOB, GPIO_Pin_12);
 }
 
 /**
@@ -87,5 +88,18 @@ void LED_Toggle(void)
 {
 	LED = !LED;
 }
+
+
+void CS_high(void)
+{
+	LED = 1;
+}
+
+
+void CS_low(void)
+{
+		LED = 0;
+}
+
 
 /********************* (C) COPYRIGHT 2014 WWW.UCORTEX.COM **********END OF FILE**********/

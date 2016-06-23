@@ -52,8 +52,9 @@
 #include "mpu6050.h"
 
 #define DVI_REG_ADDR 0x00
-#define DVI_DevAddr 0x08
+//#define DVI_DevAddr 0x08
 #define DVI_Dev2Addr 0x00
+#define DVI_DS16Addr 0xAC
 
 
 void modify_buff(uint8_t* buffer)
@@ -91,6 +92,17 @@ void modify_buff(uint8_t* buffer)
 	
 }
 
+
+void modify_ds_buffer(uint8_t* buffer_ds)
+{
+	buffer_ds[3]=0x47;
+	buffer_ds[4]=0x44;
+	buffer_ds[7]=0x00;
+	buffer_ds[8]=0x70;
+	
+}
+
+
 /**
   * @brief  Main program.
   * @param  None
@@ -106,8 +118,9 @@ int main(void)
 	uint8_t flag =0;
 	
 	uint8_t buffer[19];
+		uint8_t ds16_buffer[9];
 
-//	LED_Init();				//LED IO初始化
+	LED_Init();				//LED IO初始化
 	Delay_Init();			//延时初始化
 	COM_Init(COM1, 115200);//串口1初始化
 	/*
@@ -140,9 +153,36 @@ int main(void)
 			I2C_WriteOneByte(DVI_Dev2Addr, DVI_REG_ADDR+i, buffer[i]);
 	}
 	
+	
+		CS_high();
+	
+		for(i = 0; i < 9; i++)
+	{
+			I2C_ReadOneByte(DVI_DS16Addr, DVI_REG_ADDR+i, &ds16_buffer[i]);
+	}
+			CS_low();	
+	modify_ds_buffer(ds16_buffer);
+	
+			CS_high();
+			for(i = 3; i < 9; i++)
+	{
+			I2C_WriteOneByte(DVI_DS16Addr, DVI_REG_ADDR+i, ds16_buffer[i]);
+	}
+	
+			CS_low();
+	
+			CS_high();
+	
+		for(i = 0; i < 9; i++)
+	{
+			I2C_ReadOneByte(DVI_DS16Addr, DVI_REG_ADDR+i, &ds16_buffer[i]);
+	}
+//			CS_low();	
+	
  	while(1){}
 	
-	while(0)
+/*
+		while(0)
 	{
 		key = JoyStick_Scan(0);
 		if(key == KEY_CENTER)//进行一次I2C读写
@@ -164,12 +204,12 @@ int main(void)
 		
 	I2C_WriteOneByte(DVI_DevAddr, DVI_REG_ADDR+0x1, buffer[1]);
 	
-	/*
+	
 			I2C_WriteBurst(DVI_DevAddr, DVI_REG_ADDR, buffer, 5);
 			I2C_WriteBurst(DVI_DevAddr, DVI_REG_ADDR+0x06, buffer, 3);
 			I2C_WriteBurst(DVI_DevAddr, DVI_REG_ADDR+0x0A, buffer, 3);
 			I2C_WriteBurst(DVI_DevAddr, DVI_REG_ADDR+0x10, buffer, 3);
-			*/
+			
 			OLED_ShowxNum(72,32,buffer[3],2,16,0x13);
 		//	OLED_ShowxNum(72,32,data,2,16,0x13);
 			if(data == 0x68)
@@ -187,6 +227,8 @@ int main(void)
 			LED=!LED;//工作状态指示
 		}
 	}
+	*/
+	
 }
 
 
