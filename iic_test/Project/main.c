@@ -69,13 +69,13 @@ void modify_buff(uint8_t* buffer)
 //	buffer[3] = 0x0D;
 	buffer[3] = 0x80;//0f
 //	buffer[4] = 0x00;
-	buffer[4] = 0x10;
+	buffer[4] = 0x33;
 //	buffer[4] = 0x11;
 	buffer[5] = 0x00;
 	//B
 	buffer[6] = 0x0C;
 	buffer[7] = 0x80;
-	buffer[8] = 0x10;
+	buffer[8] = 0x33;
 	buffer[9] = 0x00;
 	//C
 	buffer[10] = 0xF5;
@@ -95,8 +95,8 @@ void modify_buff(uint8_t* buffer)
 
 void modify_ds_buffer(uint8_t* buffer_ds)
 {
-	buffer_ds[3]=0x47;
-	buffer_ds[4]=0x44;
+	buffer_ds[3]=0x77;
+	buffer_ds[4]=0x77;
 	buffer_ds[7]=0x00;
 	buffer_ds[8]=0x70;
 	
