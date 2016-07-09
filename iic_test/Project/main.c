@@ -95,8 +95,8 @@ void modify_buff(uint8_t* buffer)
 
 void modify_ds_buffer(uint8_t* buffer_ds)
 {
-	buffer_ds[3]=0x77;
-	buffer_ds[4]=0x77;
+	buffer_ds[3]=0x07;
+	buffer_ds[4]=0x00;
 	buffer_ds[7]=0x00;
 	buffer_ds[8]=0x70;
 	
@@ -177,7 +177,7 @@ int main(void)
 	{
 			I2C_ReadOneByte(DVI_DS16Addr, DVI_REG_ADDR+i, &ds16_buffer[i]);
 	}
-//			CS_low();	
+			CS_low();	
 	
  	while(1){}
 	
